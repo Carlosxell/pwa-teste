@@ -33,39 +33,39 @@
       return {
         listIcons: [{
           id: 1,
-          text: '',
+          text: 'Gerenciamento de time',
           icon: icon_teamManagement,
         }, {
           id: 2,
-          text: '',
+          text: 'Gerenciamento',
           icon: icon_construction,
         }, {
           id: 3,
-          text: '',
+          text: 'Conteúdo',
           icon: icon_content,
         }, {
           id: 4,
-          text: '',
+          text: 'Contratos',
           icon: icon_contract,
         }, {
           id: 5,
-          text: '',
+          text: 'Ideias',
           icon: icon_idea,
         }, {
           id: 6,
-          text: '',
+          text: 'Marketing Share',
           icon: icon_marketing,
         }, {
           id: 7,
-          text: '',
+          text: 'Protótipos',
           icon: icon_prototype,
         }, {
           id: 8,
-          text: '',
+          text: 'Divulgação',
           icon: icon_share,
         }, {
           id: 9,
-          text: '',
+          text: 'Estatísticas',
           icon: icon_statistics,
         }],
       }
@@ -102,8 +102,11 @@
     }
 
     &_item {
+      align-items: center;
+      border: pxToRem(1) solid $color-gray;
       cursor: pointer;
-      margin-bottom: pxToRem(12);
+      display: inline-flex;
+      margin: pxToRem(4) pxToRem(4) pxToRem(12);
       padding: pxToRem(4) pxToRem(8);
     }
 
@@ -111,6 +114,10 @@
 
     &_icon {}
 
-    &_text {}
+    &_text {
+      font-size: pxToRem(14);
+      font-weight: 700;
+      padding-left: pxToRem(12);
+    }
   }
 </style>

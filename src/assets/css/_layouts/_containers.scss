@@ -9,3 +9,19 @@
   position: relative;
   padding: pxToRem(60) pxToRem(12) 0;
 }
+
+.contentBox {
+  min-height: 100%;
+  margin: 0 auto;
+  max-width: pxToRem(992);
+}
+
+.page {
+  margin: 0 auto;
+  max-width: pxToRem(768);
+
+  &--home {
+    @extend .page;
+    text-align: center;
+  }
+}

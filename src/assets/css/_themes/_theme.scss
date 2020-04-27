@@ -19,6 +19,10 @@
   }
 }
 
+.error {
+  color: $color-red;
+}
+
 /*.banner--active {
   .header {
     top: pxToRem(60);

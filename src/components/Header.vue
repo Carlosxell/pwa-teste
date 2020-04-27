@@ -54,6 +54,8 @@
       align-items: center;
       display: flex;
       height: 100%;
+      max-width: pxToRem(992);
+      margin: 0 auto;
       padding: 0 pxToRem(12);
     }
 

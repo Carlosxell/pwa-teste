@@ -4,7 +4,9 @@
     <Menu />
 
     <div class="main">
-      <router-view/>
+      <div class="contentBox">
+        <router-view/>
+      </div>
     </div>
   </div>
 </template>

@@ -5,10 +5,7 @@ const applicationServerPublicKey = 'BKkjVFJgOEY76v5Z3CDZ7slT2Z7oCGIO8-fqJg4jcaSX
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
-    .replace(/_/g, '/');
-
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
 
@@ -18,7 +15,7 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
       console.log(
@@ -50,18 +47,16 @@ if (process.env.NODE_ENV !== 'production') {
         return console.info('Sem permissões para notificações');
       } else {
         self.addEventListener('push', (event) => {
-          const title = 'Push Codelab';
+          let data = event.data.json();
           const options = {
-            body: 'Yay it works.',
-            icon: '',
-            badge: ''
-            // badge: 'https://wallpapercave.com/wp/wp1822727.jpg'
+            body: data.notification.body,
+            icon: data.notification.icon,
+            badge: data.notification.badge
           };
-
-          const notificationPromisse = self.registration.showNotification(title, options);
+          const notificationPromisse = self.registration.showNotification(data.title, options);
 
           event.waitUntil(notificationPromisse);
-        })
+        });
       }
     },
     cached () {

@@ -2,11 +2,24 @@
 
 .menu--open {
   .menu {
-    width: pxToRem(320);
+    left: 0;
+  }
+
+  .header_menuBtn {
+    &:before {
+      background-color: rgba($color-black, .4);
+      bottom: 0;
+      height: 100vh;
+      left: 0;
+      right: 0;
+      top: 0;
+      width: 100vw;
+      z-index: 8;
+    }
   }
 }
 
-.banner--active {
+/*.banner--active {
   .header {
     top: pxToRem(60);
 
@@ -24,4 +37,4 @@
       top: pxToRem(106);
     }
   }
-}
+}*/

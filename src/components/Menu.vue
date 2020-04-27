@@ -1,24 +1,27 @@
 <template>
   <div class="menu">
     <div class="menu_content">
-      <div class="menu_item menu_item--menu" @click="openCloseMenu">
-        <svg class="menu_icon icon--sm">
-          <use :xlink:href="`#${icon_menu.id}`"></use>
-        </svg>
-      </div>
-
-      <div class="menu_item">
+      <div class="menu_item" :key="ind" v-for="(item, ind) in listIcons">
         <svg class="menu_icon icon--md">
-          <use :xlink:href="`#${icon_construction.id}`"></use>
+          <use :xlink:href="`#${ item.icon.id }`"></use>
         </svg>
+
+        <span class="menu_text">{{ item.text }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import icon_menu from '../assets/img/svg/menu.svg?sprite'
   import icon_construction from '../assets/img/svg/construction.svg?sprite'
+  import icon_content from '../assets/img/svg/content.svg?sprite'
+  import icon_contract from '../assets/img/svg/contract.svg?sprite'
+  import icon_idea from '../assets/img/svg/idea.svg?sprite'
+  import icon_marketing from '../assets/img/svg/marketing.svg?sprite'
+  import icon_prototype from '../assets/img/svg/prototype.svg?sprite'
+  import icon_share from '../assets/img/svg/share.svg?sprite'
+  import icon_statistics from '../assets/img/svg/statistics.svg?sprite'
+  import icon_teamManagement from '../assets/img/svg/team-management.svg?sprite'
   import { mapGetters } from 'vuex';
 
   export default {
@@ -28,8 +31,43 @@
     },
     data() {
       return {
-        icon_menu,
-        icon_construction,
+        listIcons: [{
+          id: 1,
+          text: '',
+          icon: icon_teamManagement,
+        }, {
+          id: 2,
+          text: '',
+          icon: icon_construction,
+        }, {
+          id: 3,
+          text: '',
+          icon: icon_content,
+        }, {
+          id: 4,
+          text: '',
+          icon: icon_contract,
+        }, {
+          id: 5,
+          text: '',
+          icon: icon_idea,
+        }, {
+          id: 6,
+          text: '',
+          icon: icon_marketing,
+        }, {
+          id: 7,
+          text: '',
+          icon: icon_prototype,
+        }, {
+          id: 8,
+          text: '',
+          icon: icon_share,
+        }, {
+          id: 9,
+          text: '',
+          icon: icon_statistics,
+        }],
       }
     },
     methods: {
@@ -45,40 +83,34 @@
   @import '../assets/css/_utilities/_exports.scss';
 
   .menu {
-    background-color: lighten($color-gray, 35%);
+    background-color: $color-white;
     position: fixed;
-    transition: width .2s linear, height .2s linear;
-    @include calc(height, '100vh - #{pxToRem(60)}', null);
-    top: pxToRem(60);
-    width: pxToRem(64);
-    z-index: 10;
+    transition: left .2s linear;
+    height: 100vh;
+    left: pxToRem(-300);
+    top: 0;
+    width: pxToRem(292);
+    z-index: 12;
 
     &_content {
-      text-align: center;
+      @include scrollbars(pxToRem(6), $color-black);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
       width: 100%;
     }
 
     &_item {
       cursor: pointer;
       margin-bottom: pxToRem(12);
-
-      &--menu {
-        cursor: pointer;
-        padding: pxToRem(12);
-
-        &:hover,
-        &:focus {
-          cursor: pointer;
-        }
-
-        .menu_icon {
-          fill: $color-black;
-        }
-      }
+      padding: pxToRem(4) pxToRem(8);
     }
+
+    &_link {}
 
     &_icon {}
 
-    &_link {}
+    &_text {}
   }
 </style>

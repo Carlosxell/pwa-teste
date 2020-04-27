@@ -1,0 +1,22 @@
+// Variáveis
+@import '_utilities/_exports';
+
+// Vendor
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+// plugins
+
+// Base
+@import '_base/_base';
+
+// Tema
+@import '_themes/_theme';
+
+// Components
+@import '_layouts/_containers';
+@import '_components/_icons';
+@import '_components/_boxes';
+
+// Hacks
+@import '_hacks/_custom';
+@import '_hacks/_fallbacks';

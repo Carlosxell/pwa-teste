@@ -1,0 +1,27 @@
+@import '../_utilities/_exports';
+
+.menu--open {
+  .menu {
+    width: pxToRem(320);
+  }
+}
+
+.banner--active {
+  .header {
+    top: pxToRem(60);
+
+    @media(min-width: pxToRem(768)) {
+      top: pxToRem(45.78);
+    }
+  }
+
+  .menu {
+    @include calc(height, '100vh - #{pxToRem(120)}', null);
+    top: pxToRem(120);
+
+    @media(min-width: pxToRem(768)) {
+      @include calc(height, '100vh - #{pxToRem(106)}', null);
+      top: pxToRem(106);
+    }
+  }
+}

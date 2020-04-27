@@ -1,0 +1,15 @@
+@import '../_utilities/_exports';
+
+.main {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: relative;
+  padding: pxToRem(60) pxToRem(12) 0 pxToRem(76);
+
+  @media(min-width: pxToRem(768)) {
+    padding-left: pxToRem(76);
+  }
+}

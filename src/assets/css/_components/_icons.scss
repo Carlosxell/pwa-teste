@@ -1,0 +1,30 @@
+@import '../_utilities/_exports';
+
+.icon {
+  display: inline-block;
+  height: 100%;
+  line-height: 0;
+  width: 100%;
+
+  &--xs,
+  &--sm,
+  &--md,
+  &--lg {
+    @extend .icon;
+  }
+
+  &--sm {
+    height: pxToRem(24);
+    width: pxToRem(24);
+  }
+
+  &--md {
+    height: pxToRem(32);
+    width: pxToRem(32);
+  }
+
+  &--lg {
+    height: pxToRem(48);
+    width: pxToRem(48);
+  }
+}

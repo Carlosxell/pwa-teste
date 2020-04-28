@@ -16,7 +16,7 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
       console.log(

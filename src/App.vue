@@ -18,6 +18,11 @@ import Menu from './components/Menu'
 
 export default {
   components: { Header, Menu },
+  data() {
+    return {
+      swInfo: window.swInfo,
+    }
+  },
   created: function () {
     window.addEventListener('resize',this.windowResize);
   },
@@ -33,6 +38,13 @@ export default {
 
       this.$store.dispatch('resizeWindow', sizes).then(() => false);
     },
+  },
+  watch: {
+    swInfo: function (oldInfo, newInfo) {
+      console.info(oldInfo, 'informação antiga')
+      console.info(newInfo, 'informação nova')
+      // this.$store.dispatch('setSwInfo', oldInfo).then(() => {});
+    }
   }
 }
 </script>

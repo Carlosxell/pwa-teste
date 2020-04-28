@@ -15,6 +15,8 @@
               id="checkSwInfoBtn"
               type="button" v-if="!swInfo">Buscar Dados</button>
     </div>
+
+    <div class="loader" v-if="showLoader"></div>
   </div>
 </template>
 
@@ -24,15 +26,19 @@
     computed: {},
     data() {
       return {
-        swInfo: window.swInfo
+        swInfo: window.swInfo,
+        showLoader: false
       }
     },
     methods: {
       checkData() {
+        this.showLoader = true;
+
         if (window.swInfo) {
           this.swInfo = window.swInfo;
+          this.showLoader = false;
         } else {
-          window.setTimeout(this.checkData, 3000);
+          window.setTimeout(this.checkData, 1500);
         }
       },
       async copyContent() {
@@ -107,5 +113,26 @@
     }
 
     &--noContent {}
+  }
+
+  .loader {
+    background-color: rgba($color-dark, .6);
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    &:before {
+      animation: rotate .68s linear infinite;
+      border: pxToRem(6) solid;
+      border-color: $color-white $color-white transparent transparent;
+      border-radius: 50%;
+      content: '';
+      display: inline-block;
+      height: pxToRem(72);
+      @include calc(margin-top, '((100vh - 3rem) / 2)', null);
+      width: pxToRem(72);
+    }
   }
 </style>

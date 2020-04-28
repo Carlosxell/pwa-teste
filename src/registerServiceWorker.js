@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { register } from 'register-service-worker'
 
+window.swInfo = null;
 const applicationServerPublicKey = 'BKkjVFJgOEY76v5Z3CDZ7slT2Z7oCGIO8-fqJg4jcaSXiJvu04WSzXFUWszlvF-opmlanekBhrgkjeSotTTHNB4';
 
 function urlB64ToUint8Array(base64String) {
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 
       swReg.pushManager.getSubscription().then(result => {
         isSubScribed = result;
+        window.swInfo = result;
         console.info('resultado: \n');
       });
 
@@ -39,6 +41,7 @@ if (process.env.NODE_ENV === 'production') {
           userVisibleOnly: true,
           applicationServerKey: serverKey,
         }).then(res => {
+          window.swInfo = JSON.stringify(res);
           console.info('Foi sobreescrito: \n', JSON.stringify(res));
         });
       }
@@ -47,13 +50,15 @@ if (process.env.NODE_ENV === 'production') {
         return console.info('Sem permissões para notificações');
       } else {
         self.addEventListener('push', (event) => {
-          let data = event.data.json();
+          let { data } = event;
           const options = {
             body: data.notification.body,
             icon: data.notification.icon,
             badge: data.notification.badge
           };
           const notificationPromisse = self.registration.showNotification(data.title, options);
+
+          console.info(data, 'push options')
 
           event.waitUntil(notificationPromisse);
         });

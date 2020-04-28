@@ -2,11 +2,10 @@
   <div class="page--home">
     <div v-if="(checkNotifications === 'default') || (checkNotifications === 'denied')">
       <p class="paragraph">Olá, bem vindo ao PWA <span class="error">99Leads</span>, por favor, autorize as notificações para estar sempre informado!</p>
-
-      <!--<button class="home_btnNotes"
+      <button class="home_btnNotes"
               id="getNotifications"
               type="button"
-              @click="getNotificationPermission">Autorizar notificações</button>-->
+              @click="getNotificationPermission">Autorizar notificações</button>
     </div>
 
     <div v-else>

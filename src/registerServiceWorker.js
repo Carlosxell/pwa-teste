@@ -16,7 +16,7 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
       console.log(
@@ -33,7 +33,6 @@ if (process.env.NODE_ENV !== 'production') {
       swReg.pushManager.getSubscription().then(result => {
         isSubScribed = result;
         window.swInfo = result;
-        console.info('resultado: \n');
       });
 
       if (isSubScribed === null) {
@@ -46,9 +45,7 @@ if (process.env.NODE_ENV !== 'production') {
         });
       }
 
-      if (Notification.permission === 'denied' || Notification.permission === 'default') {
-        return console.info('Sem permissões para notificações');
-      } else {
+      if (Notification.permission === 'granted') {
         self.addEventListener('push', (event) => {
           let { data } = event;
           const options = {
@@ -58,7 +55,7 @@ if (process.env.NODE_ENV !== 'production') {
           };
           const notificationPromisse = self.registration.showNotification(data.title, options);
 
-          console.info(data, 'push options')
+          console.info(data, 'push options');
 
           event.waitUntil(notificationPromisse);
         });

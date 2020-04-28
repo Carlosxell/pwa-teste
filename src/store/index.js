@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 const RESIZE_WINDOW = 'RESIZE_WINDOW';
 const MENU_STATUS = 'MENU_STATUS';
+const SW_PERMISSION = 'SW_PERMISSION';
 const SW_INFO = 'SW_INFO';
 
 Vue.use(Vuex)
@@ -17,7 +18,8 @@ export default new Vuex.Store({
       open: false,
     },
     sw: {
-      info: null
+      info: null,
+      permission: Notification.permission
     }
   },
   getters: {
@@ -31,7 +33,10 @@ export default new Vuex.Store({
       state.windowSize = status;
     },
     [SW_INFO] (state, status) {
-      state.sw = status;
+      state.sw.info = status;
+    },
+    [SW_PERMISSION] (state, status) {
+      state.sw.permission = status;
     },
     [MENU_STATUS] (state, status) {
       const body = document.querySelector('body');
@@ -50,6 +55,9 @@ export default new Vuex.Store({
     },
     setSwInfo ({ commit }, payload) {
       commit(SW_INFO, payload)
+    },
+    setPermission ({ commit }, payload) {
+      commit(SW_PERMISSION, payload)
     },
   }
 })

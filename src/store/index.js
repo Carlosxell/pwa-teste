@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     sw: {
       info: null,
-      permission: Notification.permission
+      permission: ''
     }
   },
   getters: {

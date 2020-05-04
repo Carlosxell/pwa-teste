@@ -1,6 +1,6 @@
 <template>
   <div class="page--home">
-    <div v-if="(checkNotifications === 'default') || (checkNotifications === 'denied')">
+    <div v-if="this.getSwInfo.permission !== 'granted'">
       <p class="paragraph">Olá, bem vindo ao PWA <span class="error">99Leads</span>, por favor, autorize as notificações para estar sempre informado!</p>
       <button class="home_btnNotes"
               id="getNotifications"
@@ -19,37 +19,31 @@
 </template>
 
 <script>
-  import ClipBoard from "../components/ClipBoard";
+  import ClipBoard from '../components/ClipBoard';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'Home',
     components: { ClipBoard },
     computed: {
-      checkNotifications: () => {
-        let check = !!('serviceWorker' in navigator && 'PushManager' in window);
-
-        if(!check) return false;
-        return Notification.permission;
-      }
+      ...mapGetters(['getSwInfo']),
     },
     data() {
       return {
-        notificatios: Notification.permission,
+        notification: null,
         swInfo: window.swInfo,
         notificationSupport: !!('serviceWorker' in navigator && 'PushManager' in window),
       }
     },
     methods: {
-      async getNotificationPermission() {
-        await Notification.requestPermission().then(permission => {
-          Notification.permission = permission;
+      getNotificationPermission() {
+        Notification.requestPermission().then(permission => {
           this.notification = permission;
 
           if (permission === 'granted') {
-            this.$store.dispatch('setSwInfo', permission).then(() => {});
+            this.$store.dispatch('setPermission', permission).then(() => {});
+            window.location.reload(true);
           }
-
-          // if(!('permission' in Notification)) { Notification.permission = permission; }
         });
       }
     }

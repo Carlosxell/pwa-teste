@@ -3,6 +3,8 @@ import { register } from 'register-service-worker'
 
 window.swInfo = null;
 const applicationServerPublicKey = 'BKkjVFJgOEY76v5Z3CDZ7slT2Z7oCGIO8-fqJg4jcaSXiJvu04WSzXFUWszlvF-opmlanekBhrgkjeSotTTHNB4';
+let permission = Notification.permission;
+let swInfo;
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -18,48 +20,51 @@ function urlB64ToUint8Array(base64String) {
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
-    ready () {
+    async ready (swReg) {
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB'
       )
+
+      if (permission === 'granted') {
+        await swReg.pushManager.getSubscription().then(result => {
+          window.swInfo = JSON.stringify(result);
+          swInfo = new CustomEvent('swInfo', { detail: JSON.stringify(result) });
+          window.dispatchEvent(swInfo);
+          console.info('resultado de cache', JSON.stringify(result));
+        });
+      }
     },
-    registered (swReg) {
+    async registered (swReg) {
       const serverKey = urlB64ToUint8Array(applicationServerPublicKey);
-      let isSubScribed = null;
 
       console.log(swReg, '\nService worker has been registered.');
 
-      swReg.pushManager.getSubscription().then(result => {
-        isSubScribed = result;
-        window.swInfo = result;
-      });
-
-      if (isSubScribed === null) {
-        swReg.pushManager.subscribe({
+      if (permission === 'granted') {
+        await swReg.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: serverKey,
         }).then(res => {
           window.swInfo = JSON.stringify(res);
+          swInfo = new CustomEvent('swInfo', { detail: JSON.stringify(res) });
+          window.dispatchEvent(swInfo);
           console.info('Foi sobreescrito: \n', JSON.stringify(res));
         });
       }
 
-      if (Notification.permission === 'granted') {
-        self.addEventListener('push', (event) => {
-          let { data } = event;
-          const options = {
-            body: data.notification.body,
-            icon: data.notification.icon,
-            badge: data.notification.badge
-          };
-          const notificationPromisse = self.registration.showNotification(data.title, options);
+      self.addEventListener('push', (event) => {
+        let { data } = event;
+        const options = {
+          body: data.notification.body,
+          icon: data.notification.icon,
+          badge: data.notification.badge
+        };
+        const notificationPromisse = self.registration.showNotification(data.title, options);
 
-          console.info(data, 'push options');
+        console.info(data, 'push options');
 
-          event.waitUntil(notificationPromisse);
-        });
-      }
+        event.waitUntil(notificationPromisse);
+      });
     },
     cached () {
       console.log('Content has been cached for offline use.')
